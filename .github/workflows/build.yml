@@ -10,14 +10,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install fnm
-        run: choco install fnm -y
-
-      - name: Setup fnm environment
-        run: |
-          fnm env --use-on-cd | Out-String | Invoke-Expression
-          fnm use
-
       - uses: pnpm/action-setup@v2
         with:
           version: 9
@@ -25,10 +17,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --ignore-scripts
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
