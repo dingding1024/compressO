@@ -1,5 +1,6 @@
 import { core } from '@tauri-apps/api'
 import { useEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Cropper, CropperRef, type CropperState } from 'react-advanced-cropper'
 import 'react-advanced-cropper/dist/style.css'
 import { useSnapshot } from 'valtio'
@@ -16,6 +17,7 @@ type MediaTransformerProps = {
 }
 
 function MediaTransformer({ mediaIndex }: MediaTransformerProps) {
+  const { t } = useTranslation()
   if (mediaIndex < 0) return null
 
   const {
@@ -268,7 +270,7 @@ function Transformer({
       <div className="mx-auto flex items-center justify-center gap-2 mt-4">
         <>
           <Button size="sm" isIconOnly onPress={() => rotate(-90)}>
-            <Tooltip content="Rotate Left" aria-label="Rotate Left">
+            <Tooltip content={t("transformer.rotateLeft")} aria-label={t("transformer.rotateLeft")}>
               <Icon name="rotateLeft" size={20} />
             </Tooltip>
           </Button>
@@ -276,7 +278,7 @@ function Transformer({
         </>
         <>
           <Button size="sm" isIconOnly onPress={() => flip(false, true)}>
-            <Tooltip content="Flip Vertical" aria-label="Flip Vertical">
+            <Tooltip content={t("transformer.flipVertical")} aria-label={t("transformer.flipVertical")}>
               <Icon name="flipVertical" size={20} />
             </Tooltip>
           </Button>
@@ -284,7 +286,7 @@ function Transformer({
         </>
         <>
           <Button size="sm" isIconOnly onPress={() => flip(true, false)}>
-            <Tooltip content="Flip Horizontal" aria-label="Flip Horizontal">
+            <Tooltip content={t("transformer.flipHorizontal")} aria-label={t("transformer.flipHorizontal")}>
               <Icon name="flipHorizontal" size={20} />
             </Tooltip>
           </Button>
@@ -292,7 +294,7 @@ function Transformer({
         </>
         <>
           <Button size="sm" isIconOnly onPress={resetZoom}>
-            <Tooltip content="Reset Zoom" aria-label="Reset Zoom">
+            <Tooltip content={t("transformer.resetZoom")} aria-label={t("transformer.resetZoom")}>
               <Icon name="zoom" size={20} />
             </Tooltip>
             <Divider className="my-3 h-5" orientation="vertical" />
@@ -301,7 +303,7 @@ function Transformer({
         </>
         <>
           <Button size="sm" isIconOnly onPress={expandCropArea}>
-            <Tooltip content="Expand" aria-label="Expand">
+            <Tooltip content={t("transformer.expand")} aria-label={t("transformer.expand")}>
               <Icon name="expand" size={20} />
             </Tooltip>
           </Button>

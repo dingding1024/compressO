@@ -1,6 +1,7 @@
 import { emitTo } from '@tauri-apps/api/event'
 import { AnimatePresence, motion } from 'framer-motion'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { snapshot, useSnapshot } from 'valtio'
 
 import Button from '@/components/Button'
@@ -9,6 +10,7 @@ import { CustomEvents } from '@/types/compression'
 import { appProxy } from '../-state'
 
 function CancelCompression() {
+  const { t } = useTranslation()
   const {
     state: { isCompressing },
   } = useSnapshot(appProxy)
@@ -55,7 +57,7 @@ function CancelCompression() {
         appProxy.timeTravel('beforeCompressionStarted')
       }
     } catch {
-      toast.error('Cannot cancel compression at this point.')
+      toast.error(t('compression.cannotCancel'))
     }
     setConfirmCancellation(false)
   }
@@ -78,10 +80,10 @@ function CancelCompression() {
       <AnimatePresence mode="wait">
         <motion.div layout="preserve-aspect">
           {confirmCancellation && !isCancelling
-            ? 'Confirm Cancel'
+            ? t('compression.confirmCancel')
             : isCancelling
-              ? 'Cancelling...'
-              : 'Cancel'}
+              ? t('compression.cancelling')
+              : t('compression.cancel')}
         </motion.div>
       </AnimatePresence>
     </Button>

@@ -1,21 +1,22 @@
 import { Divider } from '@heroui/react'
+import { useTranslation } from 'react-i18next'
 
 import Icon from '@/components/Icon'
 import Title from '@/components/Title'
 import Link from '@/tauri/components/Link'
 
 export default function Credits() {
+  const { t } = useTranslation()
   return (
     <div className="w-full py-10 pb-4 px-6">
       <section className="mb-4">
         <Title
-          title="Credits"
+          title={t("credits.title")}
           iconProps={{ name: 'lowResHeart' }}
           className="mb-6"
         />
         <p className="text-gray-600 dark:text-gray-400 text-[12px] text-center mt-1">
-          CompressO would not be possible without these incredible open-source
-          tools and libraries:
+          {t("credits.description")}
         </p>
       </section>
       <div className="grid grid-cols-2 gap-4">
@@ -126,9 +127,9 @@ export default function Credits() {
 
         <div className="text-center pt-2 col-span-full">
           <p className="text-xs text-gray-600 dark:text-gray-400">
-            Complete third-party notices and licenses is available{' '}
+            {t("about.completeNotices")}{' '}
             <Link href="https://github.com/codeforreal1/compressO/blob/main/THIRD_PARTY_NOTICES.md">
-              here
+              {t("about.here")}
             </Link>
           </p>
         </div>

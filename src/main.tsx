@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { createRouter, RouterProvider } from '@tanstack/react-router'
 import ReactDOM from 'react-dom/client'
+import './i18n'
 import './global.css'
 
 import { routeTree } from './routeTree.gen'

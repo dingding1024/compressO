@@ -2,6 +2,7 @@ import { Button } from '@heroui/react'
 import { core } from '@tauri-apps/api'
 import { motion } from 'framer-motion'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { PhotoView } from 'react-photo-view'
 import { OnProgressProps } from 'react-player/base'
 import { toast } from 'sonner'
@@ -42,6 +43,7 @@ type MediaThumbnailProps = {
 }
 
 function MediaThumbnail({ mediaIndex }: MediaThumbnailProps) {
+  const { t } = useTranslation()
   if (mediaIndex < 0) return
 
   const {
@@ -82,7 +84,7 @@ function MediaThumbnail({ mediaIndex }: MediaThumbnailProps) {
       !mediaPathRaw ||
       !playerRef.current
     ) {
-      toast.error('Unable to copy frame')
+      toast.error(t('mediaThumbnail.unableToCopyFrame'))
       return
     }
 
@@ -101,9 +103,9 @@ function MediaThumbnail({ mediaIndex }: MediaThumbnailProps) {
       const result = await generateVideoThumbnail(mediaPathRaw, timestamp)
 
       await copyFileToClipboard(result.filePath)
-      toast.success('Frame copied to clipboard')
+      toast.success(t('mediaThumbnail.frameCopied'))
     } catch {
-      toast.error('Failed to copy frame to clipboard')
+      toast.error(t('mediaThumbnail.frameCopyFailed'))
     } finally {
       setIsCopyingFrame(false)
     }
@@ -342,7 +344,7 @@ function MediaThumbnail({ mediaIndex }: MediaThumbnailProps) {
                         disabled={isCopyingFrame}
                       >
                         <Icon name="copy" size={20} />
-                        <span>Copy current frame</span>
+                        <span>{t("mediaThumbnail.copyFrame")}</span>
                       </button>
                     </div>
                   ) : null
@@ -366,7 +368,7 @@ function MediaThumbnail({ mediaIndex }: MediaThumbnailProps) {
                 disableClosedCaptions
                 onError={(error: any) => {
                   if (error.name !== 'AbortError') {
-                    toast.warning('Switching to image thumbnail...')
+                    toast.warning(t('mediaThumbnail.switchingToImage'))
                     if (appProxy.state.media[mediaIndex].type === 'video') {
                       appProxy.state.media[mediaIndex].previewMode = 'image'
                     }
@@ -433,16 +435,13 @@ function MediaThumbnail({ mediaIndex }: MediaThumbnailProps) {
                       <PopoverContent>
                         <div className="py-2 px-1 max-w-[250px]">
                           <p>
-                            This video is unable to play by this app because it
-                            contains advanced codec/configurations. Such videos
-                            require dedicated media players like VLC.
+                            {t("mediaThumbnail.videoCannotPlay")}
                           </p>
                           {!isProcessCompleted ? (
                             <>
                               <br />
                               <p>
-                                Rest assured, you can still apply the output
-                                settings and perform all the conversions.
+                                {t("mediaThumbnail.restAssured")}
                               </p>
                             </>
                           ) : null}
@@ -466,7 +465,7 @@ function MediaThumbnail({ mediaIndex }: MediaThumbnailProps) {
                         className="!p-0 !min-h-0 !py-2 !w-[unset] !min-w-[unset] !h-0 "
                       >
                         <Tooltip
-                          content="Regenerate Thumbnail"
+                          content={t("mediaThumbnail.regenerateThumbnail")}
                           className="w-0! h-0!"
                         >
                           <Icon name="image" size={20} />
@@ -487,7 +486,7 @@ function MediaThumbnail({ mediaIndex }: MediaThumbnailProps) {
                   >
                     <PhotoView src={imageToRenderSrc!}>
                       <div>
-                        <Tooltip content="Enlarge image">
+                        <Tooltip content={t("mediaThumbnail.enlargeImage")}>
                           <Icon
                             name="zoom"
                             size={18}

@@ -1,5 +1,6 @@
 import { AccordionItem } from '@heroui/react'
 import { memo, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useSnapshot } from 'valtio'
 
 import Accordion from '@/components/Accordion'
@@ -13,6 +14,7 @@ type OutputSettingsProps = {
   mediaIndex: number
 }
 function OutputSettings({ mediaIndex }: OutputSettingsProps) {
+  const { t } = useTranslation()
   const {
     state: { activeTab, media, selectedMediaIndexForCustomization },
   } = useSnapshot(appProxy)
@@ -40,9 +42,9 @@ function OutputSettings({ mediaIndex }: OutputSettingsProps) {
           <Accordion isCompact keepContentMounted variant="splitted">
             <AccordionItem
               key="1"
-              aria-label="Video Settings"
+              aria-label={t("outputSettings.videoSettings")}
               title={
-                <Title title="Video Settings" className="text-md text-left" />
+                <Title title={t("outputSettings.videoSettings")} className="text-md text-left" />
               }
               startContent={<Icon name="video" size={25} />}
               classNames={{
@@ -56,9 +58,9 @@ function OutputSettings({ mediaIndex }: OutputSettingsProps) {
             </AccordionItem>
             <AccordionItem
               key="2"
-              aria-label="Image Settings"
+              aria-label={t("outputSettings.imageSettings")}
               title={
-                <Title title="Image Settings" className="text-md text-left" />
+                <Title title={t("outputSettings.imageSettings")} className="text-md text-left" />
               }
               startContent={<Icon name="image" size={25} />}
               classNames={{

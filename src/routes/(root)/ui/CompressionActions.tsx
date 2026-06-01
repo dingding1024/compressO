@@ -1,5 +1,6 @@
 import { UseDisclosureProps, useDisclosure } from '@heroui/react'
 import { memo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { snapshot, useSnapshot } from 'valtio'
 
 import Button from '@/components/Button'
@@ -10,6 +11,7 @@ import AlertDialog, { AlertDialogButton } from '@/ui/Dialogs/AlertDialog'
 import { appProxy } from '../-state'
 
 function CompressionActions() {
+  const { t } = useTranslation()
   const {
     state: { media, isProcessCompleted, isLoadingMediaFiles, isSaving },
     resetProxy,
@@ -57,7 +59,7 @@ function CompressionActions() {
     <>
       <div className="w-fit flex justify-center items-center z-[10]">
         {isProcessCompleted ? (
-          <Tooltip content="Reconfigure" aria-label="Reset">
+          <Tooltip content={t("actions.reconfigure")} aria-label={t("actions.reconfigure")}>
             <Button
               size="sm"
               onPress={handleReconfigure}
@@ -71,7 +73,7 @@ function CompressionActions() {
             </Button>
           </Tooltip>
         ) : null}
-        <Tooltip content="Exit" aria-label="Exit">
+        <Tooltip content={t("actions.exit")} aria-label={t("actions.exit")}>
           <Button
             size="sm"
             onPress={handleCancelCompression}
@@ -86,17 +88,17 @@ function CompressionActions() {
         </Tooltip>
       </div>
       <AlertDialog
-        title={`Media not saved`}
+        title={t('actions.discardTitle')}
         disclosure={alertDisclosure}
-        description={`Your compressed media${media.length > 1 ? 'are' : ' is'} not yet saved. Are you sure you want to discard it?`}
+        description={t('actions.discardDesc', { count: media.length })}
         renderFooter={({ closeModal }) => (
           <>
-            <AlertDialogButton onPress={closeModal}>Go Back</AlertDialogButton>
+            <AlertDialogButton onPress={closeModal}>{t('actions.goBack')}</AlertDialogButton>
             <AlertDialogButton
               color="danger"
               onPress={() => handleDiscard({ closeModal })}
             >
-              Yes
+              {t('actions.yes')}
             </AlertDialogButton>
           </>
         )}

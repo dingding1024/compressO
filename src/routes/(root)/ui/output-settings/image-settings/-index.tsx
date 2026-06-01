@@ -1,5 +1,6 @@
 import { Divider, Tab } from '@heroui/react'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useSnapshot } from 'valtio'
 
 import Tabs from '@/components/Tabs'
@@ -20,15 +21,16 @@ type ImageSettingsProps = {
 const TABS = {
   image: {
     id: 'image',
-    title: 'Image',
+    title: t('outputSettings.image'),
   },
   others: {
     id: 'others',
-    title: 'Others',
+    title: t('outputSettings.others'),
   },
 } as const
 
 function ImageSettings({ mediaIndex }: ImageSettingsProps) {
+  const { t } = useTranslation()
   const {
     state: { media, commonConfigForBatchCompression },
   } = useSnapshot(appProxy)
@@ -46,7 +48,7 @@ function ImageSettings({ mediaIndex }: ImageSettingsProps) {
     <>
       <section>
         <Tabs
-          aria-label="Compression Settings"
+          aria-label={t("outputSettings.compressionSettings")}
           size="sm"
           selectedKey={tab}
           onSelectionChange={(t) => setTab(t as keyof typeof TABS)}

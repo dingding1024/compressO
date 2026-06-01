@@ -9,6 +9,7 @@ import { save } from '@tauri-apps/plugin-dialog'
 import { motion } from 'framer-motion'
 import { startCase, upperCase } from 'lodash'
 import { useCallback, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { useSnapshot } from 'valtio'
 
@@ -689,7 +690,7 @@ function SubtitleStreamsDisplay({
     format: SubtitleFormat,
   ) => {
     if (!videoPath) {
-      toast.error('Video path not available')
+      toast.error(t('videoInfo.videoPathNotAvailable'))
       return
     }
 
@@ -793,7 +794,7 @@ function SubtitleStreamsDisplay({
                     </DropdownTrigger>
                     <DropdownMenu
                       disallowEmptySelection
-                      aria-label="Subtitle format"
+                      aria-label={t("videoInfo.subtitleFormat")}
                       selectedKeys={new Set([selectedFormat])}
                       selectionMode="single"
                       onSelectionChange={(keys) => {

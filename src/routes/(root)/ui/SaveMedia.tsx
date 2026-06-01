@@ -1,5 +1,6 @@
 import { open, save } from '@tauri-apps/plugin-dialog'
 import React, { useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import { snapshot, useSnapshot } from 'valtio'
 
 import Button from '@/components/Button'
@@ -14,6 +15,7 @@ import {
 import { appProxy } from '../-state'
 
 function SaveMedia() {
+  const { t } = useTranslation()
   const {
     state: { media, isSaving, isSaved, isCompressing },
   } = useSnapshot(appProxy)
@@ -32,14 +34,14 @@ function SaveMedia() {
         if (isBatch) {
           const selectedDirectory = await open({
             directory: true,
-            title: 'Choose directory to save the compressed media.',
+            title: t('save.title'),
           })
           if (selectedDirectory) {
             pathToSave = selectedDirectory as string
           }
         } else {
           pathToSave = await save({
-            title: 'Choose location to save the compressed media.',
+            title: t('save.titleSingle'),
             defaultPath: `compressO-${compressedFile?.fileNameToDisplay ?? fileName ?? ''}`,
           })
         }
@@ -96,7 +98,7 @@ function SaveMedia() {
           }
         }
       } catch (_) {
-        toast.error('Could not save media to the given path.')
+        toast.error(t('save.couldNotSave'))
         for (let i = 0; i < media.length; i++) {
           appProxy.state.media[i].compressedFile = {
             ...(snapshot(appProxy).state.media[i].compressedFile ?? {}),
@@ -134,7 +136,7 @@ function SaveMedia() {
 
     try {
       await copyFileToClipboard(savedPath)
-      toast.success('Copied to clipboard.')
+      toast.success(t('save.copiedToClipboard'))
     } catch {}
   }
 
@@ -148,7 +150,7 @@ function SaveMedia() {
         isDisabled={isSaving || isSaved}
         fullWidth
       >
-        {isSaving ? 'Saving...' : isSaved ? 'Saved' : `Save Media`}
+        {isSaving ? t('save.saving') : isSaved ? t('save.saved') : t('save.saveMedia')}
         {!isSaving ? (
           <Icon
             name={isSaved ? 'tick' : 'download'}
@@ -159,8 +161,8 @@ function SaveMedia() {
       {isSaved ? (
         <>
           <Tooltip
-            content="Show in File Explorer"
-            aria-label="Show in File Explorer"
+            content={t("save.showInExplorer")}
+            aria-label={t("save.showInExplorer")}
           >
             <Button
               isIconOnly
@@ -176,8 +178,8 @@ function SaveMedia() {
       mediaFile?.isProcessCompleted &&
       mediaFile?.compressedFile?.isSuccessful ? (
         <Tooltip
-          content="Copy output to clipboard"
-          aria-label="Copy output to clipboard"
+          content={t("save.copyToClipboard")}
+          aria-label={t("save.copyToClipboard")}
         >
           <Button
             isIconOnly

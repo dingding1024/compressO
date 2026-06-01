@@ -74,7 +74,7 @@ function CompressionQuality({ mediaIndex }: CompressionQualityProps) {
       <motion.div {...slideDownTransition}>
         <Slider
           label="Quality"
-          aria-label="Quality"
+          aria-label={t("settingsField.quality")}
           marks={[
             {
               value: 1,

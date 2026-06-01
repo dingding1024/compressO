@@ -115,7 +115,7 @@ function AudioVolume({ mediaIndex }: AudioVolumeProps) {
     <>
       <Slider
         label="Volume:"
-        aria-label="Audio Volume"
+        aria-label={t("settingsField.audioVolume")}
         maxValue={200}
         marks={[
           {

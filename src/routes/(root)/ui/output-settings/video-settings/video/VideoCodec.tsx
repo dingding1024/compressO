@@ -204,7 +204,7 @@ function VideoCodec({ mediaIndex }: VideoCodecProps) {
                 endContent={
                   <Tooltip
                     content="Default codec for the selected container"
-                    aria-label="Default codec for the selected container"
+                    aria-label={t("settingsField.defaultCodec")}
                   >
                     <Icon
                       name="info"

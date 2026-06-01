@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { memo, useCallback, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useSnapshot } from 'valtio'
 
 import Button from '@/components/Button'
@@ -146,7 +147,7 @@ function PreviewBatchMedia() {
   const handleCopyToClipboard = useCallback(async (savedPath: string) => {
     try {
       await copyFileToClipboard(savedPath)
-      toast.success('Copied to clipboard.')
+      toast.success(t('save.copiedToClipboard'))
     } catch {}
   }, [])
 
@@ -327,7 +328,7 @@ function PreviewBatchMedia() {
                             {/* Can copy to output immediately after it's process is completed. no need to wait for other processes */}
                             <Tooltip
                               content="Copy output to clipboard"
-                              aria-label="Copy output to clipboard"
+                              aria-label={t("save.copyToClipboard")}
                             >
                               <Button
                                 size="sm"
@@ -351,7 +352,7 @@ function PreviewBatchMedia() {
                             {!isCompressing ? (
                               <Tooltip
                                 content="Compare output"
-                                aria-label="Compare output"
+                                aria-label={t("preview.compare")}
                               >
                                 <Button
                                   size="sm"
@@ -380,7 +381,7 @@ function PreviewBatchMedia() {
                           <div>
                             <Tooltip
                               content="Show in File Explorer"
-                              aria-label="Show in File Explorer"
+                              aria-label={t("save.showInExplorer")}
                             >
                               <Button
                                 size="sm"
@@ -445,7 +446,7 @@ function PreviewBatchMedia() {
                                 track: 'dark:stroke-white/50',
                                 value: 'text-[12px] text-white1',
                               }}
-                              aria-label="Processing"
+                              aria-label={t("compression.processing")}
                             />
                           ) : (
                             <Spinner className="absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2" />
@@ -507,7 +508,7 @@ function PreviewBatchMedia() {
                           <>
                             <div className="text-[11px] xl:text-[12px] xxl:text-[12px] 3xl:text-[12.5px]">
                               <p className=" text-gray-600 dark:text-gray-400 mb-1">
-                                Input Size
+                                {t("preview.inputSize")}
                               </p>
                               <span className="block font-black">
                                 {mediaFile.size}
@@ -637,7 +638,7 @@ function PreviewBatchMedia() {
               </div>
               <Divider orientation="vertical" className="h-8" />
               <div>
-                <p className=" text-gray-600 dark:text-gray-400">Input Size</p>
+                <p className=" text-gray-600 dark:text-gray-400">{t("preview.inputSize")}</p>
                 <p
                   className={cn(
                     'font-black text-lg',

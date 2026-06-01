@@ -185,7 +185,7 @@ function SvgConfig({ mediaIndex }: SvgConfigProps) {
                   </Tooltip>
                 </div>
               }
-              aria-label="Filter Speckle"
+              aria-label={t("settingsField.filterSpeckle")}
               marks={[
                 { value: 0, label: '0' },
                 { value: 128, label: '128' },
@@ -233,7 +233,7 @@ function SvgConfig({ mediaIndex }: SvgConfigProps) {
                   </Tooltip>
                 </div>
               }
-              aria-label="Color Precision"
+              aria-label={t("settingsField.colorPrecision")}
               marks={[
                 { value: 1, label: '1' },
                 { value: 8, label: '8' },
@@ -278,7 +278,7 @@ function SvgConfig({ mediaIndex }: SvgConfigProps) {
                   </Tooltip>
                 </div>
               }
-              aria-label="Layer Difference"
+              aria-label={t("settingsField.layerDifference")}
               marks={[
                 { value: 0, label: '0' },
                 { value: 128, label: '128' },
@@ -326,7 +326,7 @@ function SvgConfig({ mediaIndex }: SvgConfigProps) {
                   </Tooltip>
                 </div>
               }
-              aria-label="Corner Threshold"
+              aria-label={t("settingsField.cornerThreshold")}
               marks={[
                 { value: 0, label: '0' },
                 { value: 180, label: '180' },
@@ -374,7 +374,7 @@ function SvgConfig({ mediaIndex }: SvgConfigProps) {
                   </Tooltip>
                 </div>
               }
-              aria-label="Segment Length"
+              aria-label={t("settingsField.segmentLength")}
               marks={[
                 { value: 0, label: '0' },
                 { value: 10, label: '10' },
@@ -423,7 +423,7 @@ function SvgConfig({ mediaIndex }: SvgConfigProps) {
                   </Tooltip>
                 </div>
               }
-              aria-label="Splice Threshold"
+              aria-label={t("settingsField.spliceThreshold")}
               marks={[
                 { value: 0, label: '0' },
                 { value: 180, label: '180' },

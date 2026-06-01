@@ -145,7 +145,7 @@ function CompressionPreset({ mediaIndex }: CompressionPresetProps) {
                     className="flex justify-center items-center"
                     endContent={
                       preset.name === compressionPresets.ironclad ? (
-                        <Tooltip content="Recommended" aria-label="Recommended">
+                        <Tooltip content="Recommended" aria-label={t("settingsField.recommended")}>
                           <Icon
                             name="star"
                             className="inline-block ml-1 text-yellow-500"

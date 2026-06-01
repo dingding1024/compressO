@@ -1,6 +1,7 @@
 import { DropdownItem, useDisclosure } from '@heroui/react'
 import { AnimatePresence, motion } from 'framer-motion'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { useSnapshot } from 'valtio'
 
 import Badge from '@/components/Badge'
@@ -25,6 +26,7 @@ import Credits from './Credits'
 type DropdownKey = 'settings' | 'about' | 'update' | 'credits'
 
 function Setting() {
+  const { t } = useTranslation()
   const modalDisclosure = useDisclosure()
   const { isUpdateAvailable, latestVersion } = useSnapshot(updateStore)
 
@@ -43,8 +45,8 @@ function Setting() {
           <DropdownTrigger>
             <Button isIconOnly size="sm" variant="light">
               <Tooltip
-                content="Open Settings"
-                aria-label="Open Settings"
+                content={t("settings.openSettings")}
+                aria-label={t("settings.openSettings")}
                 placement="right"
               >
                 <Badge
@@ -61,20 +63,20 @@ function Setting() {
           </DropdownTrigger>
           <DropdownMenu
             variant="faded"
-            aria-label="Dropdown menu with description"
+            aria-label={t("settings.dropdownDescription")}
             onAction={handleDropdownAction}
           >
             <DropdownItem key="settings" startContent={<Icon name="setting" />}>
-              Settings
+              {t("settings.title")}
             </DropdownItem>
             <DropdownItem key="about" startContent={<Icon name="info" />}>
-              About
+              {t("settings.about")}
             </DropdownItem>
             <DropdownItem
               key="credits"
               startContent={<Icon name="lowResHeart" />}
             >
-              Credits
+              {t("settings.credits")}
             </DropdownItem>
             {hasNewVersion ? (
               <DropdownItem
@@ -82,7 +84,7 @@ function Setting() {
                 className="text-primary"
                 startContent={<Icon name="download" />}
               >
-                Update to {latestVersion}
+                {t("settings.update")} {latestVersion}
               </DropdownItem>
             ) : null}
           </DropdownMenu>
@@ -110,6 +112,7 @@ function Setting() {
 }
 
 function AppSetting() {
+  const { t } = useTranslation()
   const [confirmClearCache, setConfirmClearCache] = React.useState(false)
   const [isCacheDeleting, setIsCacheDeleting] = React.useState(false)
   const { color, setColor } = usePrimaryColor()
@@ -118,10 +121,10 @@ function AppSetting() {
     setIsCacheDeleting(true)
     try {
       await invokeDeleteCache()
-      toast.success('All cache was cleared.')
+      toast.success(t('settings.clearCacheSuccess'))
       setConfirmClearCache(false)
     } catch (_) {
-      toast.error('There was a problem clearing cache.')
+      toast.error(t('settings.clearCacheError'))
     }
     setIsCacheDeleting(false)
   }
@@ -129,24 +132,24 @@ function AppSetting() {
   return (
     <div className="w-full py-10 px-8">
       <section className="mb-6">
-        <Title title="Settings" iconProps={{ name: 'setting' }} />
+        <Title title={t("settings.title")} iconProps={{ name: 'setting' }} />
       </section>
       <div className="mx-auto bg-zinc-100 dark:bg-zinc-800 rounded-lg px-4 py-3 overflow-hidden">
         <div className="flex justify-between items-center">
-          <p className="text-gray-600 dark:text-gray-400 text-sm">Theme</p>
+          <p className="text-gray-600 dark:text-gray-400 text-sm">{t("settings.theme")}</p>
           <ThemeSwitcher />
         </div>
         <Divider className="my-2 dark:bg-zinc-700" />
         <div className="flex justify-between items-center">
-          <p className="text-gray-600 dark:text-gray-400 text-sm">Color</p>
+          <p className="text-gray-600 dark:text-gray-400 text-sm">{t("settings.color")}</p>
           <ColorPicker color={color} onChange={setColor} />
         </div>
         <Divider className="my-2 dark:bg-zinc-700" />
         <div className="flex justify-between items-center">
-          <p className="dark:text-red-400 text-sm text-red-400">Clear Cache</p>
+          <p className="dark:text-red-400 text-sm text-red-400">{t("settings.clearCache")}</p>
           <Tooltip
-            content="Clear cache"
-            aria-label="Clear cache"
+            content={t("settings.clearCache")}
+            aria-label={t("settings.clearCache")}
             placement="right"
             isDisabled={confirmClearCache}
           >
@@ -181,7 +184,7 @@ function AppSetting() {
                       }}
                       className="inline-block whitespace-nowrap"
                     >
-                      Clear Now
+                      {t("settings.clearCacheConfirm")}
                     </motion.span>
                   ) : null}
                 </AnimatePresence>
@@ -199,6 +202,7 @@ interface UpdateModalProps {
 }
 
 function UpdateModal({ onClose }: UpdateModalProps) {
+  const { t } = useTranslation()
   const {
     isUpdateAvailable,
     latestVersion,
@@ -213,14 +217,14 @@ function UpdateModal({ onClose }: UpdateModalProps) {
       await downloadAndInstallUpdateApp()
       onClose()
     } catch {
-      toast.error('Failed to install update. Please try again.')
+      toast.error(t('settings.failedInstall'))
     }
   }
 
   return (
     <div className="w-full py-10 pb-4 px-8">
       <section className="mb-6">
-        <Title title="Update Available" iconProps={{ name: 'download' }} />
+        <Title title={t("settings.updateAvailable")} iconProps={{ name: 'download' }} />
       </section>
       <div>
         {isUpdateAvailable && latestVersion ? (
@@ -228,13 +232,13 @@ function UpdateModal({ onClose }: UpdateModalProps) {
             <div className="flex justify-between items-center mb-4">
               <div>
                 <p className="text-gray-600 dark:text-gray-400 text-xs">
-                  Current Version
+                  {t("settings.currentVersion")}
                 </p>
                 <p className="font-bold text-sm">{currentVersion}</p>
               </div>
               <div className="text-right">
                 <p className="text-gray-600 dark:text-gray-400 text-xs">
-                  Latest Version
+                  {t("settings.latestVersion")}
                 </p>
                 <p className="font-bold text-sm text-primary">
                   {latestVersion}
@@ -244,7 +248,7 @@ function UpdateModal({ onClose }: UpdateModalProps) {
             <Divider className="my-2" />
             {body && (
               <div className="mt-4">
-                <p className="text-primary text-sm mb-2">What's New?</p>
+                <p className="text-primary text-sm mb-2">{t('settings.whatsNew')}</p>
                 <ScrollShadow className="max-h-[50vh]">
                   <Markdown content={body} className="text-sm" />
                 </ScrollShadow>
@@ -254,7 +258,7 @@ function UpdateModal({ onClose }: UpdateModalProps) {
             <div className="mt-4 flex justify-end gap-2">
               {!isInstalling ? (
                 <Button variant="flat" size="sm" onPress={onClose}>
-                  Cancel
+                  {t("settings.cancel")}
                 </Button>
               ) : null}
               <Button
@@ -264,14 +268,14 @@ function UpdateModal({ onClose }: UpdateModalProps) {
                 isLoading={isInstalling}
                 isDisabled={isInstalling}
               >
-                Update Now {isInstalling ? `(${installProgress}%)` : ''}
+                {t("settings.updateNow")} {isInstalling ? `(${installProgress}%)` : ''}
               </Button>
             </div>
           </>
         ) : (
           <div className="text-center py-4">
             <p className="text-gray-600 dark:text-gray-400 text-sm">
-              No updates available. You are on the latest version.
+              {t('settings.noUpdates')}
             </p>
           </div>
         )}

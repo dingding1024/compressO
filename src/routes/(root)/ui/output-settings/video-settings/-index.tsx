@@ -1,5 +1,6 @@
 import { Divider, Tab } from '@heroui/react'
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useSnapshot } from 'valtio'
 
 import Tabs from '@/components/Tabs'
@@ -28,19 +29,20 @@ type VideoSettingsProps = {
 const TABS = {
   video: {
     id: 'video',
-    title: 'Video',
+    title: t('outputSettings.video'),
   },
   audio: {
     id: 'audio',
-    title: 'Audio',
+    title: t('outputSettings.audio'),
   },
   others: {
     id: 'others',
-    title: 'Others',
+    title: t('outputSettings.others'),
   },
 } as const
 
 function VideoSettings({ mediaIndex }: VideoSettingsProps) {
+  const { t } = useTranslation()
   const {
     state: { media },
   } = useSnapshot(appProxy)
@@ -79,7 +81,7 @@ function VideoSettings({ mediaIndex }: VideoSettingsProps) {
     <>
       <section>
         <Tabs
-          aria-label="Compression Settings"
+          aria-label={t("outputSettings.compressionSettings")}
           size="sm"
           selectedKey={tab}
           onSelectionChange={(t) => setTab(t as keyof typeof TABS)}
@@ -156,7 +158,7 @@ function VideoSettings({ mediaIndex }: VideoSettingsProps) {
               {hasNoAudio ? (
                 <div className="flex justify-center items-center absolute left-0 top-0 w-full h-full bg-white1/50 dark:bg-black1/50">
                   <p className="text-xs text-center mt-1 text-zinc-600 dark:text-zinc-400">
-                    No audio found
+                    {t("outputSettings.noAudioFound")}
                   </p>
                 </div>
               ) : null}

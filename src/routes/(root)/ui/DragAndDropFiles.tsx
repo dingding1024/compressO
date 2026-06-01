@@ -1,6 +1,7 @@
 import { event } from '@tauri-apps/api'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import ReactDOM from 'react-dom'
 
 import Icon from '@/components/Icon'
@@ -19,6 +20,7 @@ function DragAndDropFiles({
   onFile,
   multiple = false,
 }: DragAndDropFilesProps) {
+  const { t } = useTranslation()
   const [dragAndDropState, setDragAndDropState] = React.useState<
     'idle' | 'dragging' | 'dropped'
   >('idle')
@@ -62,7 +64,7 @@ function DragAndDropFiles({
             if (Array.isArray(files)) {
               onFile?.(files)
             } else {
-              toast.error('Invalid files/folders')
+              toast.error(t('toast.invalidFiles'))
             }
           }
         })
@@ -103,7 +105,7 @@ function DragAndDropFiles({
               >
                 <Icon name="dragAndDrop" className="text-primary" size={50} />
                 <p className="my-2 text-gray-600 dark:text-gray-400 text-sm">
-                  Drop anywhere...
+                  {t('dragDrop.dropAnywhere')}
                 </p>
               </motion.div>
             </div>

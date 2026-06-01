@@ -2,6 +2,7 @@ import { core, event } from '@tauri-apps/api'
 import { TimelineAction } from '@xzdarcy/timeline-engine'
 import { motion } from 'framer-motion'
 import { useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { snapshot, useSnapshot } from 'valtio'
 
@@ -22,6 +23,7 @@ import SaveMedia from './SaveMedia'
 import { appProxy } from '../-state'
 
 function StartCompression() {
+  const { t } = useTranslation()
   const {
     state: {
       selectedMediaIndexForCustomization,
@@ -303,7 +305,7 @@ function StartCompression() {
       }
     } catch (error) {
       if (error !== 'CANCELLED') {
-        toast.error('Something went wrong during compression.')
+        toast.error(t('compression.somethingWentWrong'))
         appProxy.timeTravel('beforeCompressionStarted')
       }
     }
@@ -323,7 +325,7 @@ function StartCompression() {
           className="w-full text-primary bg-primary/20"
           isDisabled={isLoadingMediaFiles}
         >
-          Process
+          {t('compression.process')}
         </Button>
       )}
     </div>

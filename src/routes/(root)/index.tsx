@@ -4,6 +4,7 @@ import { open } from '@tauri-apps/plugin-dialog'
 import { motion } from 'framer-motion'
 import cloneDeep from 'lodash/cloneDeep'
 import React, { useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useSnapshot } from 'valtio'
 
 import Icon from '@/components/Icon'
@@ -48,6 +49,7 @@ async function getSvgDimensionSilently(
 }
 
 function Root() {
+  const { t } = useTranslation()
   const { state, resetProxy } = useSnapshot(appProxy)
 
   const { media, isLoadingMediaFiles, totalSelectedMediaCount } = state
@@ -69,7 +71,7 @@ function Root() {
       })
 
       if (mediaPaths.length === 0) {
-        toast.error('No valid media files found.')
+        toast.error(t('toast.noValidMedia'))
         return
       }
 
@@ -208,7 +210,9 @@ function Root() {
       appProxy.state.isLoadingMediaFiles = false
       if (corruptedFilesCount > 0) {
         toast.error(
-          `${mediaPaths.length > 1 ? 'Some files seem' : 'File seems'} to be corrupted/invalid ${mediaPaths.length > 1 ? 'and are filtered out' : ''}.`,
+          mediaPaths.length > 1
+            ? t('toast.someFilesCorrupted')
+            : t('toast.fileSeemsCorrupted'),
         )
         if (corruptedFilesCount === mediaPaths.length) {
           resetProxy()
@@ -223,21 +227,21 @@ function Root() {
       const filePath = await open({
         directory: false,
         multiple: true,
-        title: `Select images/videos to compress.`,
+        title: t('fileSelect.title'),
         filters: [
           { name: 'video', extensions: Object.keys(extensions?.video) },
           { name: 'image', extensions: Object.keys(extensions?.image) },
         ],
       })
       if (filePath == null) {
-        const message = 'File selection config is invalid.'
+        const message = t('fileSelect.invalidConfig')
         // biome-ignore lint/suspicious/noConsole: <>
         console.warn(message)
         return
       }
       handleMediaSelection(filePath)
     } catch (error: any) {
-      toast.error(error?.message ?? 'Could not select media.')
+      toast.error(error?.message ?? t('fileSelect.couldNotSelect'))
     }
   }, [handleMediaSelection])
 
@@ -280,9 +284,9 @@ function Root() {
         <div className="flex flex-col justify-center items-center py-16 px-20 border-2 border-dashed border-zinc-200 dark:border-zinc-800 rounded-3xl">
           <Icon name="addMedia" className="text-primary" size={60} />
           <p className="text-sm mt-4 text-gray-600 dark:text-gray-400 text-center">
-            Drag & Drop
-            <span className="block text-xs">Or</span>
-            Click to select media
+            {t('dragDrop.title')}
+            <span className="block text-xs">{t('dragDrop.or')}</span>
+            {t('dragDrop.clickToSelect')}
           </p>
         </div>
       </motion.div>
