@@ -10,6 +10,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install fnm
+        run: choco install fnm -y
+
+      - name: Setup fnm environment
+        run: |
+          fnm env --use-on-cd | Out-String | Invoke-Expression
+          fnm use
+
       - uses: pnpm/action-setup@v2
         with:
           version: 9
